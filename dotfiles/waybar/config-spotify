@@ -1,0 +1,23 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 32,
+    "margin-bottom": 10,
+    "margin-left": 200,
+    "margin-right": 200,
+    "modules-center": ["mpris"],
+    "name": "bottombar", 
+
+    "mpris": {
+        "format": "{player_icon}  <span font='11' weight='bold'>{artist} - {title}</span>",
+        "format-paused": "{status_icon}  <i>{artist} - {title}</i>",
+        "player-icons": {
+            "default": "🎵",
+            "brave": "" 
+        },
+        "status-icons": {
+            "paused": "⏸"
+        },
+        "max-length": 60
+    }
+}

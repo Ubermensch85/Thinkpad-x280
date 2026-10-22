@@ -1,0 +1,203 @@
+/* =========================================================================
+   Waybar Style - Nord-Arch Modern
+   Ottimizzato per ThinkPad X280 / Hyprland 0.56.2
+   Palette Nord:
+     nord0  #2E3440 (polar night background)
+     nord3  #4C566A (inattivo/borders)
+     nord8  #88C0D0 (frost accent primario)
+     nord9  #81A1C1 (frost accent secondario)
+     nord13 #EBCB8B (aurora yellow - gammastep/warning)
+     nord14 #A3BE8C (aurora green - charging/success)
+   ========================================================================= */
+
+* {
+    all: unset;
+    font-family: "Inter", "Hack Nerd Font", "Font Awesome 7 Free", "Font Awesome 6 Free", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ── Finestra Principale Waybar (Barra Superiore) ────────────────────────── */
+window#waybar {
+    background-color: transparent;
+    color: #ECEFF4;
+}
+
+/* Box contenitore stile pillola Nord */
+#waybar > box {
+    background-color: rgba(46, 52, 64, 0.94); /* Nord0 */
+    border-radius: 25px;
+    padding: 2px 8px;
+    border: 1px solid rgba(136, 192, 208, 0.25); /* Sottile bordo Nord8 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    margin: 2px 2px;
+}
+
+/* ── Moduli Base ─────────────────────────────────────────────────────────── */
+#workspaces,
+#cpu,
+#memory,
+#clock,
+#pulseaudio,
+#battery,
+#custom-battery,
+#tray,
+#temperature,
+#disk,
+#backlight,
+#custom-arch,
+#custom-updates,
+#custom-weather,
+#network,
+#network.vpn,
+#network.proton,
+#custom-gammastep {
+    color: #ECEFF4;
+    padding: 0 10px;
+    margin: 0 2px;
+}
+
+/* Accent color #88C0D0 / #3281EA per brand e clock */
+#custom-arch,
+#clock,
+#custom-updates {
+    color: #88C0D0;
+    font-weight: 700;
+}
+
+/* ── Workspaces ──────────────────────────────────────────────────────────── */
+#workspaces {
+    margin-left: 4px;
+}
+
+#workspaces button {
+    font-family: "DejaVu Serif";
+    padding: 2px 6px;
+    color: rgba(236, 239, 244, 0.55);
+    border-radius: 8px;
+    margin: 0 2px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 24px;
+}
+
+#workspaces button:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+    color: #ECEFF4;
+}
+
+#workspaces button.active {
+    color: #88C0D0;
+    background-color: rgba(136, 192, 208, 0.15);
+    font-weight: 700;
+}
+
+#workspaces button.urgent {
+    background-color: rgba(191, 97, 106, 0.30);
+    color: #BF616A;
+}
+
+/* ── Hover Effects Moduli di Sistema ─────────────────────────────────────── */
+#cpu:hover,
+#memory:hover,
+#pulseaudio:hover,
+#battery:hover,
+#custom-battery:hover,
+#network:hover,
+#network.vpn:hover,
+#network.proton:hover,
+#temperature:hover,
+#disk:hover,
+#backlight:hover,
+#custom-weather:hover,
+#custom-gammastep:hover {
+    color: #88C0D0;
+    transition: color 0.2s ease;
+}
+
+/* ── Tooltips (GTK4 Popover Nord) ────────────────────────────────────────── */
+tooltip {
+    background-color: rgba(46, 52, 64, 0.96);
+    border-radius: 12px;
+    border: 1px solid rgba(136, 192, 208, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    padding: 10px;
+}
+
+tooltip label {
+    color: #ECEFF4;
+    font-size: 13px;
+    padding: 4px 8px;
+}
+
+/* ── System Tray ─────────────────────────────────────────────────────────── */
+#tray {
+    margin-right: 4px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: rgba(191, 97, 106, 0.30);
+    border-radius: 8px;
+}
+
+/* ── Batteria (Stati Speciali) ───────────────────────────────────────────── */
+#battery.charging,
+#custom-battery.charging {
+    color: #A3BE8C; /* Nord14 Aurora Green */
+}
+
+#battery.warning,
+#custom-battery.warning {
+    color: #EBCB8B; /* Nord13 Aurora Yellow */
+}
+
+#battery.critical,
+#custom-battery.critical {
+    color: #BF616A; /* Nord11 Aurora Red */
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* ── Gammastep / Display Control ─────────────────────────────────────────── */
+#custom-gammastep {
+    margin-left: 4px;
+}
+
+#custom-gammastep.attivo {
+    color: #EBCB8B; /* Nord13 caldo per il filtro notturno */
+}
+
+#custom-gammastep.nonattivo {
+    color: #88C0D0;
+}
+
+/* ── Spotify Pop-up Bar (Inferiore) ──────────────────────────────────────── */
+window#waybar.bottombar {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+window#waybar.bottombar > box {
+    background-color: rgba(46, 52, 64, 0.92);
+    border: 1px solid rgba(136, 192, 208, 0.3);
+    border-radius: 20px;
+    margin: 2px 10px;
+    padding: 2px 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+window#waybar.bottombar #mpris {
+    color: #ECEFF4;
+    padding: 0 8px;
+    font-weight: 600;
+}

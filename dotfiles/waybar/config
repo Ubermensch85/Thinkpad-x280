@@ -1,0 +1,198 @@
+{
+    // =========================================================================
+    // Waybar Configuration - ThinkPad X280 / Hyprland 0.56.2
+    // Stile Nord coerente, layout pulito e gestione immediata dei segnali
+    // =========================================================================
+
+    "layer": "top",
+    "position": "top",
+    "height": 37,
+    "spacing": 5,
+    "margin-top": 3,
+    "margin-left": 3,
+    "margin-right": 3,
+    "reload_style_on_change": true,
+
+    // ── Distribuzione Moduli ──────────────────────────────────────────────────
+    "modules-left": [
+        "custom/arch",
+        "custom/updates",
+        "disk",
+        "cpu",
+        "memory",
+        "custom/weather"
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "temperature",
+        "custom/gammastep",
+        "backlight",
+        "pulseaudio",
+        "custom/battery",
+        "network",
+        "network#vpn",
+        "network#proton",
+        "tray",
+        "clock"
+    ],
+
+    // ── Modulo Workspaces Hyprland ────────────────────────────────────────────
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "on-scroll-up": "hyprctl dispatch workspace e-1",
+        "on-scroll-down": "hyprctl dispatch workspace e+1",
+        "format-icons": {
+            "1": "<span font='DejaVu Serif 11'>Ⅰ</span>",
+            "2": "<span font='DejaVu Serif 11'>Ⅱ</span>",
+            "3": "<span font='DejaVu Serif 11'>Ⅲ</span>",
+            "4": "<span font='DejaVu Serif 11'>Ⅳ</span>",
+            "5": "<span font='DejaVu Serif 11'>Ⅴ</span>",
+            "6": "<span font='DejaVu Serif 11'>Ⅵ</span>",
+            "7": "<span font='DejaVu Serif 11'>Ⅶ</span>",
+            "8": "<span font='DejaVu Serif 11'>Ⅷ</span>",
+            "9": "<span font='DejaVu Serif 11'>Ⅸ</span>",
+            "10": "<span font='DejaVu Serif 11'>Ⅹ</span>"
+        }
+    },
+
+    // ── Moduli Sinistra (Info & Hardware) ─────────────────────────────────────
+    "custom/arch": {
+        "format": " <span size='x-large'>󰣇</span> ",
+        "tooltip": false,
+        "on-click": "python3 ~/.config/waybar/scripts/show_arch_info.py"
+    },
+
+    "custom/updates": {
+        "format": "<span size='large'>󰮯</span>    {}",
+        "interval": 120,
+        "exec": "/usr/local/bin/check-updates.sh",
+        "on-click": "kitty --class kitty-update -e zsh -c 'sudo ~/update.sh; echo \"Premi Enter per chiudere...\"; read -r'",
+        "on-click-right": "pkill -RTMIN+7 waybar",
+        "signal": 7
+    },
+
+    "disk": {
+        "format": "󰋊  {percentage_used}%",
+        "tooltip-format": "Disco: {used} / {total} ({percentage_used}%)"
+    },
+
+    "cpu": {
+        "format": "  {usage}%",
+        "tooltip": true
+    },
+
+    "memory": {
+        "format": "󰘚  {percentage}%",
+        "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G ({percentage}%)"
+    },
+
+    "custom/weather": {
+        "format": "{}",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "~/.config/waybar/scripts/weather.sh",
+        "return-type": "json"
+    },
+
+    // ── Moduli Destra (Controlli & Notifiche) ──────────────────────────────────
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "  {temperatureC}°C",
+        "tooltip-format": "Temperatura CPU: {temperatureC}°C"
+    },
+
+    "custom/gammastep": {
+        "exec": "~/.config/waybar/scripts/gammastep_status.sh",
+        "return-type": "json",
+        "interval": 10,
+        "signal": 8,
+        "on-click": "~/.local/bin/display-control toggle"
+    },
+
+    "backlight": {
+        "format": "{icon}   {percent}%",
+        "tooltip-format": "Luminosità: {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"]
+    },
+
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{icon}  {volume}%",
+        "format-bluetooth": "{icon}  {volume}%",
+        "format-muted": "󰝟 ",
+        "format-bluetooth-muted": "󰝟",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "tooltip-format": "Volume: {volume}%"
+    },
+
+    "custom/battery": {
+        "exec": "~/.config/waybar/scripts/battery_fixed.sh",
+        "return-type": "json",
+        "interval": 10,
+        "format": "{}",
+        "on-click": "sudo /usr/local/bin/battery_check_root.py"
+    },
+
+    // ── Rete e Connessioni VPN ────────────────────────────────────────────────
+    "network": {
+        "format-wifi": "󰤨 ",
+        "format-ethernet": "󰈀 ",
+        "format-disconnected": "󰤮 ",
+        "format-linked": "󰤨 ",
+        "format": "",
+        "tooltip-format-wifi": "WiFi: {essid}\nSegnale: {signalStrength}%\nIP: {ipaddr}",
+        "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}",
+        "tooltip-format-disconnected": "Nessuna connessione di rete",
+        "on-click": "kitty --class kitty-nmtui -e nmtui"
+    },
+
+    "network#vpn": {
+        "interface": "ppp0",
+        "format": "󰌆 VPN",
+        "format-disconnected": "",
+        "tooltip-format": "openfortivpn\nIP: {ipaddr}",
+        "tooltip-format-disconnected": ""
+    },
+
+    "network#proton": {
+        "interface": "proton0",
+        "format": "󰌆 VPN",
+        "format-disconnected": "",
+        "tooltip-format": "ProtonVPN\nIP: {ipaddr}",
+        "tooltip-format-disconnected": ""
+    },
+
+    // ── Tray e Orologio ───────────────────────────────────────────────────────
+    "tray": {
+        "spacing": 8,
+        "ignore": ["innu", "Innu"]
+    },
+
+    "clock": {
+        "format": "  {:%H:%M}",
+        "format-alt": "{:%d-%m-%Y}",
+        "interval": 1,
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#88c0d0'><b>{}</b></span>",
+                "today": "<span color='#81a1c1'><b><u>{}</u></b></span>"
+            }
+        }
+    }
+}

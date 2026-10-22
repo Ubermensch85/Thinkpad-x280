@@ -1,0 +1,51 @@
+#!/bin/bash
+
+STATE_FILE=~/.cache/display_state
+
+apply_settings() {
+    pkill -x gammastep 2>/dev/null || true
+
+    if [[ $1 == "night" ]]; then
+        # Avvia gammastep per la notte (4200K)
+        gammastep -m wayland -O 4200 -g 0.92:0.95:1.03 >/dev/null 2>&1 &
+        sleep 0.15
+        if ! pgrep -x gammastep >/dev/null 2>&1; then
+            # Se la sessione corrente non è ancora stata riavviata, fallback provvisorio su hyprshade
+            hyprshade on blue-light-filter 2>/dev/null || true
+        else
+            hyprshade off 2>/dev/null || true
+        fi
+    else
+        # Avvia gammastep per il giorno (6500K con calibrazione AUO)
+        gammastep -m wayland -O 6500 -g 0.92:0.95:1.03 >/dev/null 2>&1 &
+        sleep 0.15
+        if ! pgrep -x gammastep >/dev/null 2>&1; then
+            # Se la sessione corrente non è ancora stata riavviata, fallback provvisorio su hyprshade
+            hyprshade on day-calibration 2>/dev/null || true
+        else
+            hyprshade off 2>/dev/null || true
+        fi
+    fi
+
+    echo "$1" > "$STATE_FILE"
+}
+
+case "$1" in
+    "init")
+        apply_settings "day"
+        ;;
+    "toggle")
+        current=$(cat "$STATE_FILE" 2>/dev/null || echo "day")
+        if [[ $current == "day" ]]; then
+            apply_settings "night"
+            notify-send "Filtro Luce Blu" "ATTIVO (4200K Notte) 🌙" \
+                -h string:x-canonical-private-synchronous:display_mode
+        else
+            apply_settings "day"
+            notify-send "Filtro Luce Blu" "DISATTIVO (6500K Calibrato Giorno) ☀️" \
+                -h string:x-canonical-private-synchronous:display_mode
+        fi
+        
+        pkill -RTMIN+8 waybar 2>/dev/null || true
+        ;;
+esac
