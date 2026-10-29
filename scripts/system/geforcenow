@@ -1,0 +1,46 @@
+#!/bin/bash
+# ~/.local/bin/geforcenow
+# Launcher ottimizzato per GeForce NOW (gfn-electron) su Hyprland / Wayland
+# Hardware: ThinkPad X280 - Intel Kaby Lake HD Graphics 620 (i5-7200U)
+# Driver VA-API: Intel iHD (Gen9)
+
+# ── Driver e Backend VA-API (Intel Media Driver) ──────────────────────────────
+export LIBVA_DRIVER_NAME=iHD
+export LIBVA_DRIVERS_PATH=/usr/lib/dri
+export LIBVA_DRM_DEVICE=/dev/dri/renderD128
+
+# ── Integrazione Wayland nativa ───────────────────────────────────────────────
+export GDK_BACKEND=wayland
+export QT_QPA_PLATFORM=wayland
+export SDL_VIDEODRIVER=wayland
+export CLUTTER_BACKEND=wayland
+export XDG_CURRENT_DESKTOP=Hyprland
+
+# ── Ottimizzazione Latenza Audio (PipeWire / PulseAudio) ────────────────────────
+export PULSE_LATENCY_MSEC=30
+
+# ── Flag Chromium/Electron per Wayland nativo e Accelerazione VA-API ───────────
+FLAGS=(
+    # Esecuzione Wayland nativa (disattiva XWayland, compositing intermedio e riduce il lag)
+    "--ozone-platform-hint=auto"
+    "--ozone-platform=wayland"
+    "--enable-features=WaylandWindowDecorations,VaapiVideoDecodeLinuxGL,VaapiVideoDecoder,AcceleratedVideoDecodeLinuxGL,CanvasOopRasterization"
+    "--disable-features=UseChromeOSDirectVideoDecoder"
+
+    # Decodifica Video Hardware su Intel HD Graphics 620
+    "--enable-accelerated-video-decode"
+    "--enable-gpu-rasterization"
+    "--enable-zero-copy"
+    "--ignore-gpu-blocklist"
+
+    # Rendering GL ANGLE (OpenGL ES per stabilità stream WebRTC GeForce NOW)
+    "--use-gl=angle"
+
+    # Prevenzione freeze/blocco durante il cambio di workspace o perdita di focus
+    "--disable-background-timer-throttling"
+    "--disable-backgrounding-occluded-windows"
+    "--disable-renderer-backgrounding"
+)
+
+# Esegui il binario ufficiale passando flag ed eventuali argomenti utente
+exec /opt/gfn-electron/gfn-electron "${FLAGS[@]}" "$@"

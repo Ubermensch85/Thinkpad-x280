@@ -18,11 +18,11 @@ hl.monitor({
     scale    = 1,
 })
 
--- Uscita DisplayPort / USB-C Thunderbolt (es. monitor 4K ad alta densità)
+-- Uscita DisplayPort / USB-C Thunderbolt (es. TV 4K / monitor esterno)
 hl.monitor({
     output   = "DP-2",
     mode     = "3840x2160@60",
-    position = "1536x0",
+    position = "auto",
     scale    = 2,
 })
 

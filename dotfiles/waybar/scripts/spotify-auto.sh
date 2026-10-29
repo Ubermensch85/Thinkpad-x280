@@ -1,48 +1,36 @@
 #!/bin/bash
 
+# ~/.config/waybar/scripts/spotify-auto.sh
+# Gestione automatica barra Spotify basata su eventi D-Bus MPRIS (zero polling)
+
 CONFIG="$HOME/.config/waybar/config-spotify"
 STYLE="$HOME/.config/waybar/style.css"
 
-while true; do
-    # 1. Trova l'istanza di Brave
-    PLAYER=$(playerctl -l 2>/dev/null | grep "brave" | head -n 1)
+start_bar() {
+    if ! pgrep -f "waybar -c $CONFIG" > /dev/null; then
+        waybar -c "$CONFIG" -s "$STYLE" &
+    fi
+}
 
-    # Verifica se la barra waybar-spotify è già in esecuzione
+stop_bar() {
     if pgrep -f "waybar -c $CONFIG" > /dev/null; then
-        BAR_RUNNING=1
-    else
-        BAR_RUNNING=0
+        pkill -f "waybar -c $CONFIG"
     fi
+}
 
-    # Se non c'è nessun player Brave attivo
-    if [ -z "$PLAYER" ]; then
-        if [ $BAR_RUNNING -eq 1 ]; then
-            pkill -f "waybar -c $CONFIG"
-        fi
-    else
-        # 2. Estrai Stato e Album
-        STATUS=$(playerctl -p "$PLAYER" status 2>/dev/null)
-        # Se xesam:album esiste, è musica (Spotify). Se è vuoto, è video (YouTube/Rai).
-        ALBUM=$(playerctl -p "$PLAYER" metadata xesam:album 2>/dev/null)
+trap 'stop_bar; exit 0' SIGINT SIGTERM
 
-        if [[ -n "$ALBUM" ]]; then
-            IS_MUSIC=1
+while true; do
+    # Ascolto eventi MPRIS nativo D-Bus (zero CPU wakeups)
+    playerctl --player=brave -F metadata --format '{{status}}||{{xesam:album}}' 2>/dev/null | while IFS='||' read -r status album; do
+        if [[ "$status" == "Playing" && -n "$album" ]]; then
+            start_bar
         else
-            IS_MUSIC=0
+            stop_bar
         fi
+    done
 
-        # --- AZIONI ---
-
-        # ACCENDI: Sta suonando + È Musica + Barra spenta
-        # RIMOSSO: --name "bottombar" (causava l'errore)
-        if [[ "$STATUS" == "Playing" ]] && [[ $IS_MUSIC -eq 1 ]] && [[ $BAR_RUNNING -eq 0 ]]; then
-            waybar -c "$CONFIG" -s "$STYLE" &
-        
-        # SPEGNI: (Non suona PIÙ) OPPURE (Non è più musica) + Barra accesa
-        elif { [[ "$STATUS" != "Playing" ]] || [[ $IS_MUSIC -eq 0 ]]; } && [[ $BAR_RUNNING -eq 1 ]]; then
-            pkill -f "waybar -c $CONFIG"
-        fi
-    fi
-
-    sleep 2
+    # Se Brave si chiude, chiudi la barra e attendi la riapertura
+    stop_bar
+    sleep 3
 done

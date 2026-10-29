@@ -75,8 +75,8 @@ hl.animation({ leaf = "windows",          enabled = true, speed = 5, bezier = "s
 hl.animation({ leaf = "windowsOut",       enabled = true, speed = 4, bezier = "smoothOut", style = "slide"     })
 hl.animation({ leaf = "windowsMove",      enabled = true, speed = 5, bezier = "overshot"                       })
 hl.animation({ leaf = "border",           enabled = true, speed = 6, bezier = "easeInOut"                      })
--- Rotazione gradiente bordo — effetto aurora boreale continuo
-hl.animation({ leaf = "borderangle",      enabled = true, speed = 8, bezier = "linear"                         })
+-- Rotazione gradiente disattivata per preservare la batteria ed evitare C-state wakeups continui su Intel HD 620
+hl.animation({ leaf = "borderangle",      enabled = false })
 hl.animation({ leaf = "fade",             enabled = true, speed = 4, bezier = "easeInOut"                      })
 hl.animation({ leaf = "workspaces",       enabled = true, speed = 5, bezier = "bounce",    style = "slide"     })
 hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 5, bezier = "spring",    style = "slidevert" })

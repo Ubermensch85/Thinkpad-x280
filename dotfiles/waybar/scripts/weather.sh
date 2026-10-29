@@ -1,103 +1,93 @@
-#!/bin/bash
+#!/usr/bin/env python3
+import datetime
+import json
+import locale
+import sys
+import urllib.error
+import urllib.request
 
-MAX_RETRIES=3
-RETRY_DELAY=2
+try:
+    locale.setlocale(locale.LC_ALL, "")
+except Exception:
+    pass
 
-for i in $(seq 1 $MAX_RETRIES); do
-    data=$(curl -s --max-time 5 \
-        'https://api.open-meteo.com/v1/forecast?latitude=43.11&longitude=12.39&current_weather=true&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode,windspeed_10m_max&hourly=relativehumidity_2m,precipitation_probability&timezone=auto&forecast_days=3')
+URL = (
+    "https://api.open-meteo.com/v1/forecast?latitude=43.11&longitude=12.39"
+    "&current_weather=true&daily=temperature_2m_max,temperature_2m_min,"
+    "precipitation_sum,weathercode,windspeed_10m_max"
+    "&hourly=relativehumidity_2m,precipitation_probability"
+    "&timezone=auto&forecast_days=3"
+)
 
-    if echo "$data" | jq -e '.current_weather.temperature' &>/dev/null; then
-        break
-    fi
-
-    data=""
-    sleep $RETRY_DELAY
-done
-
-if [[ -z "$data" ]]; then
-    printf '{"text": "󰖐  N/A", "tooltip": "Dati non disponibili"}'
-    exit 1
-fi
-
-temp=$(echo "$data" | jq '.current_weather.temperature')
-code=$(echo "$data" | jq '.current_weather.weathercode')
-wind=$(echo "$data" | jq '.current_weather.windspeed')
-
-# Dati giornalieri (3 giorni)
-max0=$(echo "$data" | jq '.daily.temperature_2m_max[0]')
-min0=$(echo "$data" | jq '.daily.temperature_2m_min[0]')
-max1=$(echo "$data" | jq '.daily.temperature_2m_max[1]')
-min1=$(echo "$data" | jq '.daily.temperature_2m_min[1]')
-max2=$(echo "$data" | jq '.daily.temperature_2m_max[2]')
-min2=$(echo "$data" | jq '.daily.temperature_2m_min[2]')
-rain0=$(echo "$data" | jq '.daily.precipitation_sum[0]')
-rain1=$(echo "$data" | jq '.daily.precipitation_sum[1]')
-rain2=$(echo "$data" | jq '.daily.precipitation_sum[2]')
-wcode1=$(echo "$data" | jq '.daily.weathercode[1]')
-wcode2=$(echo "$data" | jq '.daily.weathercode[2]')
-windmax0=$(echo "$data" | jq '.daily.windspeed_10m_max[0]')
-
-# Umidità ora corrente (indice ora attuale)
-current_hour=$(date +%-H)
-humidity=$(echo "$data" | jq ".hourly.relativehumidity_2m[$current_hour]")
-rain_prob=$(echo "$data" | jq ".hourly.precipitation_probability[$current_hour]")
-
-# Nomi giorni
-day1=$(date -d "+1 day" +%A)
-day2=$(date -d "+2 days" +%A)
-
-weather_desc() {
-    case $1 in
-        0)              echo "Sereno" ;;
-        1|2|3)          echo "Parz. nuvoloso" ;;
-        45|48)          echo "Nebbia" ;;
-        51|53|55)       echo "Pioggerella" ;;
-        61|63|65)       echo "Pioggia" ;;
-        71|73|75|77)    echo "Neve" ;;
-        85|86)          echo "Rovesci neve" ;;
-        95|96|99)       echo "Temporale" ;;
-        *)              echo "N/D" ;;
-    esac
+WEATHER_ICONS = {
+    0: "󰖙",
+    1: "󰖕", 2: "󰖕", 3: "󰖕",
+    45: "󰖑", 48: "󰖑",
+    51: "󰖗", 53: "󰖗", 55: "󰖗", 61: "󰖗", 63: "󰖗", 65: "󰖗",
+    71: "󰼶", 73: "󰼶", 75: "󰼶", 77: "󰼶", 85: "󰼶", 86: "󰼶",
+    95: "󰙪", 96: "󰙪", 99: "󰙪"
 }
 
-weather_icon() {
-    case $1 in
-        0)                     echo '󰖙' ;;
-        1|2|3)                 echo '󰖕' ;;
-        45|48)                 echo '󰖑' ;;
-        51|53|55|61|63|65)     echo '󰖗' ;;
-        71|73|75|77|85|86)     echo '󰼶' ;;
-        95|96|99)              echo '󰙪' ;;
-        *)                     echo '󰖐' ;;
-    esac
+def get_icon(code):
+    return WEATHER_ICONS.get(code, "󰖐")
+
+data = None
+for _ in range(3):
+    try:
+        req = urllib.request.Request(URL, headers={"User-Agent": "WaybarWeather/1.0"})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            if "current_weather" in data:
+                break
+    except Exception:
+        pass
+
+if not data or "current_weather" not in data:
+    print(json.dumps({"text": "󰖐  N/A", "tooltip": "Dati non disponibili"}))
+    sys.exit(0)
+
+cw = data["current_weather"]
+daily = data.get("daily", {})
+hourly = data.get("hourly", {})
+
+temp = cw.get("temperature", 0)
+code = cw.get("weathercode", 0)
+wind = cw.get("windspeed", 0)
+icon = get_icon(code)
+
+now = datetime.datetime.now()
+current_hour = now.hour
+
+rel_hum = hourly.get("relativehumidity_2m", [])
+humidity = rel_hum[current_hour] if current_hour < len(rel_hum) else "N/D"
+
+precip_prob = hourly.get("precipitation_probability", [])
+rain_prob = precip_prob[current_hour] if current_hour < len(precip_prob) else "0"
+
+max0 = daily.get("temperature_2m_max", [0])[0]
+min0 = daily.get("temperature_2m_min", [0])[0]
+rain0 = daily.get("precipitation_sum", [0])[0]
+windmax0 = daily.get("windspeed_10m_max", [0])[0]
+
+day1_name = (now + datetime.timedelta(days=1)).strftime("%A")
+day2_name = (now + datetime.timedelta(days=2)).strftime("%A")
+
+def get_day(idx, name):
+    d_max = daily.get("temperature_2m_max", [0, 0, 0])[idx]
+    d_min = daily.get("temperature_2m_min", [0, 0, 0])[idx]
+    d_rain = daily.get("precipitation_sum", [0, 0, 0])[idx]
+    d_code = daily.get("weathercode", [0, 0, 0])[idx]
+    d_icon = get_icon(d_code)
+    return f"{d_icon} {name}\n  {d_min}°C — {d_max}°C  |  {d_rain:.2f} mm"
+
+part1 = f"󰖙 Oggi\n  Temp:     {temp}°C (min {min0}° | max {max0}°)\n  Umidità:  {humidity}%\n  Vento:    {wind} km/h (max {windmax0})\n  Pioggia:  {rain0:.2f} mm  ({rain_prob}% prob.)"
+part2 = get_day(1, day1_name)
+part3 = get_day(2, day2_name)
+
+tooltip = f"{part1}\n\n{part2}\n\n{part3}\n"
+
+output = {
+    "text": f"{icon}  {temp}°C",
+    "tooltip": tooltip
 }
-
-desc1=$(weather_desc $wcode1)
-desc2=$(weather_desc $wcode2)
-icon1=$(weather_icon $wcode1)
-icon2=$(weather_icon $wcode2)
-
-tooltip=$(printf \
-"󰖙 Oggi\n  Temp:     %s°C (min %s° | max %s°)\n  Umidità:  %s%%\n  Vento:    %s km/h (max %s)\n  Pioggia:  %s mm  (%s%% prob.)\n\n%s %s\n  %s°C — %s°C  |  %s mm\n\n%s %s\n  %s°C — %s°C  |  %s mm" \
-    "$temp" "$min0" "$max0" \
-    "$humidity" "$wind" "$windmax0" \
-    "$rain0" "$rain_prob" \
-    "$icon1" "$day1" "$min1" "$max1" "$rain1" \
-    "$icon2" "$day2" "$min2" "$max2" "$rain2")
-
-# Escape newlines per JSON
-tooltip_json=$(echo "$tooltip" | jq -Rs '.')
-
-# Icon testo principale
-case $code in
-    0)                     icon='󰖙' ;;
-    1|2|3)                 icon='󰖕' ;;
-    45|48)                 icon='󰖑' ;;
-    51|53|55|61|63|65)     icon='󰖗' ;;
-    71|73|75|77|85|86)     icon='󰼶' ;;
-    95|96|99)              icon='󰙪' ;;
-    *)                     icon='󰖐' ;;
-esac
-
-printf '{"text": "%s  %s°C", "tooltip": %s}' "$icon" "$temp" "$tooltip_json"
+print(json.dumps(output, ensure_ascii=False))

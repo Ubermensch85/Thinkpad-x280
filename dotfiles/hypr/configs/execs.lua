@@ -38,5 +38,4 @@ hl.on("hyprland.start", function()
     -- Script utente di avvio
     hl.exec_cmd("/home/ubermensch/.local/bin/display-control init")
     hl.exec_cmd("/home/ubermensch/.config/waybar/scripts/spotify-auto.sh")
-    hl.exec_cmd("checkupdates")
 end)

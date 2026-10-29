@@ -1,0 +1,11 @@
+#!/bin/bash
+export LIBVA_DRIVER_NAME=iHD
+export LIBVA_DRIVERS_PATH=/usr/lib/dri
+export LIBVA_DRM_DEVICE=/dev/dri/renderD128   # ← aggiunto
+export MOZ_ENABLE_WAYLAND=1
+export MOZ_WAYLAND_USE_VAAPI=1
+export MOZ_DISABLE_RDD_SANDBOX=1
+export MOZ_DRM_DEVICE=/dev/dri/renderD128     # ← era card0, ora renderD128
+export MOZ_ACCELERATED=1
+
+exec /usr/lib/firefox-developer-edition/firefox "$@"

@@ -67,7 +67,7 @@
 
     "custom/updates": {
         "format": "<span size='large'>󰮯</span>    {}",
-        "interval": 120,
+        "interval": 3600,
         "exec": "/usr/local/bin/check-updates.sh",
         "on-click": "kitty --class kitty-update -e zsh -c 'sudo ~/update.sh; echo \"Premi Enter per chiudere...\"; read -r'",
         "on-click-right": "pkill -RTMIN+7 waybar",

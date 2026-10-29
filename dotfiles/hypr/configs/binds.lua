@@ -6,7 +6,7 @@ local mainMod = "SUPER"
 -- ── Applicazioni Principali ──────────────────────────────────────────────────
 hl.bind(mainMod .. " + Return",    hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd("sh /home/ubermensch/.local/bin/firefox-hwaccel"))
-hl.bind(mainMod .. " + C",         hl.dsp.exec_cmd("sh /home/ubermensch/.local/librewolf-hwaccel"))
+hl.bind(mainMod .. " + C",         hl.dsp.exec_cmd("sh /home/ubermensch/.local/bin/librewolf-hwaccel"))
 hl.bind(mainMod .. " + G",         hl.dsp.exec_cmd("/home/ubermensch/.local/bin/geforcenow"))
 hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd("rofi -show run"))
@@ -16,7 +16,7 @@ hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd("ghostwriter"))
 
 -- ── Sistema & Gestione Sessione ──────────────────────────────────────────────
 hl.bind(mainMod .. " + Q",         hl.dsp.window.close())
-hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd("hyprctl dispatch killactive"))
+hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.kill())
 hl.bind(mainMod .. " + E",         hl.dsp.exit())
 hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("reboot"))
 hl.bind(mainMod .. " + Delete", hl.dsp.exec_cmd("systemctl poweroff"))
