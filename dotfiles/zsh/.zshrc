@@ -187,8 +187,16 @@ if command -v bat &>/dev/null; then
 fi
 
 # System
-alias update='sudo pacman -Syu'
+alias update='sudo ~/update.sh'
 alias cleanup='sudo pacman -Sc && yay -Sc'
+
+# Notifica immediata a Waybar su completamento o interruzione di yay
+yay() {
+  command yay "$@"
+  local ret=$?
+  pkill -RTMIN+7 waybar 2>/dev/null || true
+  return $ret
+}
 
 # Mount helpers
 alias mountntfs='sudo mount -t ntfs-3g -o big_writes,uid=1000,gid=1000,umask=022'

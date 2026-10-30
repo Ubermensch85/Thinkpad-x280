@@ -1,6 +1,27 @@
 #!/usr/bin/env zsh
 set -euo pipefail
 
+# Assicura che Waybar venga aggiornata all'uscita (completamento, errore o interruzione Ctrl+C)
+trap 'pkill -RTMIN+7 waybar 2>/dev/null || true' EXIT INT TERM
+
+# Installazione automatica dell'hook Pacman per notificare Waybar ad ogni transazione futura
+if [[ $EUID -eq 0 && ! -f /etc/pacman.d/hooks/99-waybar-updates.hook ]]; then
+    mkdir -p /etc/pacman.d/hooks
+    cat << 'EOF' > /etc/pacman.d/hooks/99-waybar-updates.hook
+[Trigger]
+Operation = Upgrade
+Operation = Install
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Aggiornamento contatore pacchetti su Waybar...
+When = PostTransaction
+Exec = /usr/bin/pkill -RTMIN+7 waybar
+EOF
+fi
+
 echo "[*] Aggiornamento mirrorlist con rate-mirrors..."
 
 # Genera una mirrorlist ottimizzata (https solo, max 2 ore di ritardo)
@@ -49,7 +70,7 @@ paccache -r -k 2
 echo "[*] Rigenerazione systemd-boot..."
 bootctl update 2>/dev/null || true
 
-# Aggiorna immediatamente il modulo degli aggiornamenti su Waybar (signal 8)
-pkill -RTMIN+8 waybar 2>/dev/null || true
+# Aggiorna immediatamente il modulo degli aggiornamenti su Waybar (signal 7)
+pkill -RTMIN+7 waybar 2>/dev/null || true
 
 echo "[*] Aggiornamento completato!"
