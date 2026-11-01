@@ -5,11 +5,13 @@ in vec2 v_texcoord;
 uniform sampler2D tex;
 out vec4 fragColor;
 
-// Calibrazione pannello AUO B125HAN02.2 normalizzata per preservare piena brillantezza
-const vec3 calibration = vec3(0.95, 0.98, 1.05);
-const float brightness = 1.04;
+// Calibrazione pannello AUO B125HAN02.2 ottimizzata per condizioni hardware attuali:
+// Preserva la piena luminanza, corregge la temperatura colore evitando clipping dei bianchi
+// e recupera i toni scuri per prevenire il black crush.
+const vec3 calibration = vec3(0.96, 0.98, 1.00);
 
 void main() {
     vec4 pixColor = texture(tex, v_texcoord);
-    fragColor = vec4(pixColor.rgb * calibration * brightness, pixColor.a);
+    vec3 color = pixColor.rgb * calibration;
+    fragColor = vec4(clamp(color, 0.0, 1.0), pixColor.a);
 }

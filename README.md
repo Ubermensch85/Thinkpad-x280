@@ -63,7 +63,7 @@ I ThinkPad dispongono di controller di carica avanzati supportati dal kernel. Le
 - **`enable_fbc=1`**: Attiva il *Framebuffer Compression* per ridurre i consumi energetici dello schermo.
 - **`enable_psr=0`**: Disattiva il *Panel Self Refresh*, evitando il noto freeze/sfarfallio del display che affligge le GPU integrate Intel di 8ª generazione su Wayland.
 - **`enable_dpcd_backlight=3`**: Abilita il controllo della luminosità nativo via DPCD.
-- **Profilo ICC (`assets/icc/x280-lcd.icc`)**: Profilo colore calibrato per il pannello IPS dell'X280 per correggere gamma e resa cromatica.
+- **Profilo ICC (`assets/icc/x280-lcd.icc`)**: Profilo colore ottimizzato per il pannello IPS AUO B125HAN02.2 con Black Point Compensation (BPC) per eliminare il black crush, abbinato alla calibrazione giorno/notte a luminanza preservata in `display-control` (attivabile con la scorciatoia `Win + W` o clic su Waybar).
 
 ### 3. Audio ThinkPad ALC257 (`etc/modprobe.d/thinkpad-audio-unified.conf`)
 I portatili ThinkPad con codec Realtek ALC257 soffrono spesso di problemi con la presa combo jack (cuffie/microfono) o click/pop audio dovuti al risparmio energetico aggressivo del chipset:

@@ -1,26 +1,33 @@
 #!/bin/bash
+# ThinkPad X280 - Gestione e calibrazione display (Wayland / Hyprland)
+# Controllato da Win + W (toggle) e all'avvio da execs.lua (init)
 
 STATE_FILE=~/.cache/display_state
 
 apply_settings() {
-    pkill -x gammastep 2>/dev/null || true
+    # Termina istanze precedenti di gammastep evitando conflitti sul protocollo Wayland
+    if pgrep -x gammastep >/dev/null 2>&1; then
+        pkill -x gammastep 2>/dev/null || true
+        while pgrep -x gammastep >/dev/null 2>&1; do
+            sleep 0.05
+        done
+    fi
 
     if [[ $1 == "night" ]]; then
-        # Avvia gammastep per la notte (4200K)
-        gammastep -m wayland -O 4200 -g 0.92:0.95:1.03 >/dev/null 2>&1 &
+        # Modalità Notte: 4200K riposante, gamma lineare 1.0 (senza alterare la curva naturale)
+        gammastep -m wayland -O 4200 -g 1.0:1.0:1.0 >/dev/null 2>&1 &
         sleep 0.15
         if ! pgrep -x gammastep >/dev/null 2>&1; then
-            # Se la sessione corrente non è ancora stata riavviata, fallback provvisorio su hyprshade
             hyprshade on blue-light-filter 2>/dev/null || true
         else
             hyprshade off 2>/dev/null || true
         fi
     else
-        # Avvia gammastep per il giorno (6500K con calibrazione AUO)
-        gammastep -m wayland -O 6500 -g 0.92:0.95:1.03 >/dev/null 2>&1 &
+        # Modalità Giorno: 6500K con correzione bilanciata AUO B125HAN02.2
+        # Preserva la piena luminanza dell'hardware ed evita black crush (0.96:0.98:1.02)
+        gammastep -m wayland -O 6500 -g 0.96:0.98:1.02 >/dev/null 2>&1 &
         sleep 0.15
         if ! pgrep -x gammastep >/dev/null 2>&1; then
-            # Se la sessione corrente non è ancora stata riavviata, fallback provvisorio su hyprshade
             hyprshade on day-calibration 2>/dev/null || true
         else
             hyprshade off 2>/dev/null || true
@@ -42,7 +49,7 @@ case "$1" in
                 -h string:x-canonical-private-synchronous:display_mode
         else
             apply_settings "day"
-            notify-send "Filtro Luce Blu" "DISATTIVO (6500K Calibrato Giorno) ☀️" \
+            notify-send "Filtro Luce Blu" "DISATTIVO (6500K Ottimizzato Giorno) ☀️" \
                 -h string:x-canonical-private-synchronous:display_mode
         fi
         

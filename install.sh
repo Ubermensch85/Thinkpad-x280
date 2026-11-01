@@ -44,6 +44,13 @@ install_user_dotfiles() {
         echo "  [+] .zshrc installato in ~/"
     fi
 
+    # Profili colore ICC
+    if [ -d "$REPO_DIR/assets/icc" ]; then
+        mkdir -p "$HOME/.local/share/icc"
+        cp -u "$REPO_DIR/assets/icc/"* "$HOME/.local/share/icc/" 2>/dev/null || true
+        echo "  [+] Profili colore ICC installati in ~/.local/share/icc"
+    fi
+
     # Scripts
     echo "[*] Copia script in ~/.local/bin/..."
     find "$REPO_DIR/scripts" -type f \( -name "*.sh" -o -name "*.py" -o ! -name "*.*" \) -exec cp -u {} "$HOME/.local/bin/" \;
