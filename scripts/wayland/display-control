@@ -5,33 +5,15 @@
 STATE_FILE=~/.cache/display_state
 
 apply_settings() {
-    # Termina istanze precedenti di gammastep evitando conflitti sul protocollo Wayland
-    if pgrep -x gammastep >/dev/null 2>&1; then
-        pkill -x gammastep 2>/dev/null || true
-        while pgrep -x gammastep >/dev/null 2>&1; do
-            sleep 0.05
-        done
-    fi
+    # Elimina eventuali vecchi processi gammastep non supportati da Hyprland 0.57
+    pkill -x gammastep 2>/dev/null || true
 
     if [[ $1 == "night" ]]; then
-        # Modalità Notte: 4200K riposante, gamma lineare 1.0 (senza alterare la curva naturale)
-        gammastep -m wayland -O 4200 -g 1.0:1.0:1.0 >/dev/null 2>&1 &
-        sleep 0.15
-        if ! pgrep -x gammastep >/dev/null 2>&1; then
-            hyprshade on blue-light-filter 2>/dev/null || true
-        else
-            hyprshade off 2>/dev/null || true
-        fi
+        # Modalità Notte: filtro luce blu riposante nativo (4000K)
+        hyprshade on blue-light-filter 2>/dev/null || true
     else
-        # Modalità Giorno: 6500K con correzione bilanciata AUO B125HAN02.2
-        # Preserva la piena luminanza dell'hardware ed evita black crush (0.96:0.98:1.02)
-        gammastep -m wayland -O 6500 -g 0.96:0.98:1.02 >/dev/null 2>&1 &
-        sleep 0.15
-        if ! pgrep -x gammastep >/dev/null 2>&1; then
-            hyprshade on day-calibration 2>/dev/null || true
-        else
-            hyprshade off 2>/dev/null || true
-        fi
+        # Modalità Giorno: calibrazione bilanciata per pannello AUO B125HAN02.2 (D65)
+        hyprshade on day-calibration 2>/dev/null || true
     fi
 
     echo "$1" > "$STATE_FILE"
@@ -45,11 +27,11 @@ case "$1" in
         current=$(cat "$STATE_FILE" 2>/dev/null || echo "day")
         if [[ $current == "day" ]]; then
             apply_settings "night"
-            notify-send "Filtro Luce Blu" "ATTIVO (4200K Notte) 🌙" \
+            notify-send "Filtro Luce Blu" "ATTIVO (4000K Notte) 🌙" \
                 -h string:x-canonical-private-synchronous:display_mode
         else
             apply_settings "day"
-            notify-send "Filtro Luce Blu" "DISATTIVO (6500K Ottimizzato Giorno) ☀️" \
+            notify-send "Filtro Luce Blu" "DISATTIVO (6500K Giorno Calibrato) ☀️" \
                 -h string:x-canonical-private-synchronous:display_mode
         fi
         
