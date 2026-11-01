@@ -1,27 +1,36 @@
 -- ~/.config/hypr/configs/monitors.lua
--- Hyprland 0.56.2 - Gestione Monitor
--- Sintassi nativa: hl.monitor({ output = "...", mode = "...", position = "...", scale = N })
+-- Hyprland - Gestione Monitor
+-- Sintassi nativa: hl.monitor({ output = "...", mode = "...", position = "...", scale = N, icc = "..." })
 
--- Pannello interno ThinkPad X280 (12.5" FHD IPS)
+-- Pannello interno ThinkPad X280 (12.5" FHD IPS AUO B125HAN02.2)
+-- Calibrato con profilo ICC dedicato e Black Point Compensation (BPC)
 hl.monitor({
     output   = "eDP-1",
     mode     = "1920x1080@60",
     position = "0x0",
     scale    = 1,
+    icc      = "/home/ubermensch/.local/share/icc/x280-lcd.icc",
 })
 
--- Uscita HDMI (es. monitor esterno da scrivania o sala riunioni)
+-- Uscita HDMI (Televisori 4K 43"-50", risoluzione nativa con scala 2 per massima leggibilità)
 hl.monitor({
     output   = "HDMI-A-2",
-    mode     = "1920x1080@60",
+    mode     = "preferred",
     position = "auto",
-    scale    = 1,
+    scale    = 2,
 })
 
--- Uscita DisplayPort / USB-C Thunderbolt (es. TV 4K / monitor esterno)
+hl.monitor({
+    output   = "HDMI-A-1",
+    mode     = "preferred",
+    position = "auto",
+    scale    = 2,
+})
+
+-- Uscita DisplayPort / USB-C Thunderbolt (Monitor o TV 4K)
 hl.monitor({
     output   = "DP-2",
-    mode     = "3840x2160@60",
+    mode     = "preferred",
     position = "auto",
     scale    = 2,
 })
