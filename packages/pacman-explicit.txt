@@ -51,7 +51,6 @@ dog
 dosbox
 downgrade
 duf
-easyeffects
 efibootmgr
 exfatprogs
 eza
@@ -152,7 +151,6 @@ lld
 lolcat
 lsb-release
 lshw
-lsp-plugins
 mako
 man-db
 man-pages

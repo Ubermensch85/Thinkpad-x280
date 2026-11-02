@@ -72,9 +72,14 @@ I portatili ThinkPad con codec Realtek ALC257 soffrono tipicamente di volume per
   - Forza `model=alc257-lenovo` sul driver `snd-hda-intel`.
   - Disabilita il power-save intermittente (`power_save=0`) che causava ritardi e click/pop all'attivazione del flusso audio.
   - Corregge l'allineamento buffer (`position_fix=1`) per prevenire xrun/desync audio.
-- **EasyEffects DSP System-wide (`dotfiles/easyeffects/`)**:
-  - Profilo su misura **`ThinkPad-X280`** (*Upward Compression* +6 dB sui suoni deboli, presenza vocale 1.5–3.5 kHz, High-Pass < 110 Hz e True-Peak Limiter a -1 dB per eliminare risonanze e clipping).
-  - Regola di autoloading per altoparlanti integrati (zero demoni all'avvio del sistema, zero boot overhead).
+- **PipeWire Native Filter-Chain DSP (`dotfiles/pipewire/pipewire.conf.d/`)**:
+  - Modulo nativo in C (`libpipewire-module-filter-chain`) caricato direttamente dentro PipeWire all'avvio.
+  - Zero processi o demoni esterni, zero dipendenze da Qt o Wayland, zero icone sul tray e **0 ms di overhead** sul boot.
+  - Catena biquad in tempo reale su 4 stadi:
+    - **High-Pass (120 Hz)**: elimina le frequenze sub-basse che causano escursione eccessiva della membrana e vibrazioni della scocca.
+    - **Warmth (400 Hz, +1.5 dB)**: dona pienezza e calore al corpo delle voci.
+    - **Presence (2500 Hz, +3.5 dB)**: esalta le armoniche delle consonanti e la chiarezza vocale, rendendo i dialoghi perfettamente comprensibili anche a volume basso (20%–50%).
+    - **Air (7000 Hz, +1.5 dB)**: rifinitura e definizione sui dettagli ad alta frequenza.
 - **MPV (`dotfiles/config/mpv/`)**:
   - Filtri `dynaudnorm` + `highpass=f=120` in `mpv.conf` per livellamento dinamico automatico del parlato nei film/video.
   - Tasto rapido `n` in `input.conf` per commutare i filtri al volo quando si collegano cuffie.
