@@ -38,6 +38,32 @@ install_user_dotfiles() {
         echo "  [+] MPV configurato in ~/.config/mpv"
     fi
 
+    # EasyEffects (DSP Audio per altoparlanti ThinkPad X280)
+    if [ -d "$REPO_DIR/dotfiles/easyeffects" ]; then
+        mkdir -p "$HOME/.local/share/easyeffects/output" "$HOME/.local/share/easyeffects/autoload/output"
+        cp -u "$REPO_DIR/dotfiles/easyeffects/output/"* "$HOME/.local/share/easyeffects/output/" 2>/dev/null || true
+        cp -u "$REPO_DIR/dotfiles/easyeffects/autoload/"* "$HOME/.local/share/easyeffects/autoload/output/" 2>/dev/null || true
+        echo "  [+] Preset EasyEffects installati in ~/.local/share/easyeffects"
+    fi
+
+    # Servizi systemd utente (es. EasyEffects background service)
+    if [ -d "$REPO_DIR/dotfiles/systemd/user" ]; then
+        mkdir -p "$HOME/.config/systemd/user"
+        cp -u "$REPO_DIR/dotfiles/systemd/user/"* "$HOME/.config/systemd/user/" 2>/dev/null || true
+        systemctl --user daemon-reload 2>/dev/null || true
+        echo "  [+] Servizi systemd utente installati in ~/.config/systemd/user"
+    fi
+
+    # Firefox Developer Edition (user.js anti-clipping & hwaccel)
+    if [ -f "$REPO_DIR/dotfiles/firefox/user.js" ]; then
+        for profile in "$HOME/.mozilla/firefox/"*.dev-edition-default; do
+            if [ -d "$profile" ]; then
+                cp -u "$REPO_DIR/dotfiles/firefox/user.js" "$profile/user.js"
+                echo "  [+] user.js aggiornato nel profilo Firefox: $(basename "$profile")"
+            fi
+        done
+    fi
+
     # Zshrc
     if [ -f "$REPO_DIR/dotfiles/zsh/.zshrc" ] && [ ! -f "$HOME/.zshrc" ]; then
         cp "$REPO_DIR/dotfiles/zsh/.zshrc" "$HOME/.zshrc"

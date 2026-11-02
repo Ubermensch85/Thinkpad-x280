@@ -51,6 +51,7 @@ dog
 dosbox
 downgrade
 duf
+easyeffects
 efibootmgr
 exfatprogs
 eza
@@ -151,6 +152,7 @@ lld
 lolcat
 lsb-release
 lshw
+lsp-plugins
 mako
 man-db
 man-pages
@@ -325,7 +327,6 @@ yay
 yazi
 yt-dlp
 zathura-pdf-poppler
-zotero-bin
 zoxide
 zsh
 zsh-autosuggestions

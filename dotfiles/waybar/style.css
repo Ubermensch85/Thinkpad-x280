@@ -150,6 +150,65 @@ tooltip label {
     border-radius: 8px;
 }
 
+/* ── Menu a Tendina (Tray Context Menu / GTK Popups) ─────────────────────── */
+menu,
+#tray menu {
+    background-color: rgba(46, 52, 64, 0.96); /* Nord0 Polar Night */
+    border: 1px solid rgba(136, 192, 208, 0.30); /* Nord8 Frost Accent */
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+menu menuitem,
+#tray menu menuitem {
+    background-color: transparent;
+    color: #ECEFF4;
+    padding: 6px 12px;
+    margin: 2px 0;
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+menu menuitem:hover,
+#tray menu menuitem:hover {
+    background-color: rgba(136, 192, 208, 0.20); /* Nord8 Frost */
+    color: #88C0D0;
+}
+
+menu menuitem:disabled,
+#tray menu menuitem:disabled {
+    color: rgba(236, 239, 244, 0.35);
+}
+
+menu menuitem label,
+#tray menu menuitem label {
+    color: inherit;
+}
+
+menu separator,
+#tray menu separator {
+    background-color: rgba(136, 192, 208, 0.20);
+    min-height: 1px;
+    margin: 4px 6px;
+}
+
+menu menuitem arrow,
+#tray menu menuitem arrow {
+    color: inherit;
+    min-width: 12px;
+    min-height: 12px;
+}
+
+menu menuitem check,
+menu menuitem radio,
+#tray menu menuitem check,
+#tray menu menuitem radio {
+    min-width: 12px;
+    min-height: 12px;
+    margin-right: 8px;
+}
+
 /* ── Batteria (Stati Speciali) ───────────────────────────────────────────── */
 #battery.charging,
 #custom-battery.charging {

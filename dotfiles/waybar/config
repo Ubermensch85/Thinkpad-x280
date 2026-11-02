@@ -178,7 +178,8 @@
     // ── Tray e Orologio ───────────────────────────────────────────────────────
     "tray": {
         "spacing": 8,
-        "ignore": ["innu", "Innu"]
+        "ignore": ["innu", "Innu", "easyeffects", "EasyEffects", "com.github.wwmm.easyeffects"],
+        "ignore-list": ["innu", "Innu", "easyeffects", "EasyEffects", "com.github.wwmm.easyeffects"]
     },
 
     "clock": {
