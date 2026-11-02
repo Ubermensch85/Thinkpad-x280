@@ -4,6 +4,10 @@
 // Kernel: XanMod Linux low-latency
 // ==============================================================================
 
+// === BROWSER PREDEFINITO & AVVIO (Evita il banner ad ogni avvio) ===
+user_pref("browser.shell.checkDefaultBrowser", false);
+user_pref("browser.shell.defaultBrowserCheckCount", 1);
+
 // === PERFORMANCE & RENDERING ===
 user_pref("nglayout.initialpaint.delay", 0);
 user_pref("browser.sessionstore.interval", 600000);
@@ -12,13 +16,15 @@ user_pref("image.mem.decode_bytes_at_a_time", 65536);
 
 // === WEBRENDER & ACCELERAZIONE GRAFICA 2D/3D (Intel HD 620) ===
 user_pref("gfx.webrender.all", true);
-user_pref("gfx.webrender.compositor", true);
-user_pref("gfx.webrender.compositor.force-enabled", true);
+// NOTA BENE: gfx.webrender.compositor su Wayland + Intel iHD causa un bug noto di
+// disallineamento dello spazio colore (video YouTube rossi/viola su subsurfaces Wayland).
+// Deve rimanere 'false' affinché WebRender esegua il rendering dei frame video internamente.
+user_pref("gfx.webrender.compositor", false);
+user_pref("gfx.webrender.compositor.force-enabled", false);
 user_pref("gfx.webrender.precache-shaders", true);
 user_pref("gfx.webrender.program-binary-disk", true);
-// Accelerazione Hardware per HTML5 2D Canvas (sgrava la CPU nei giochi/grafici web)
+// Accelerazione Hardware per HTML5 2D Canvas
 user_pref("gfx.canvas.accelerated", true);
-user_pref("gfx.canvas.accelerated.force-enabled", true);
 
 // === WAYLAND / HYPRLAND NATIVO ===
 user_pref("widget.wayland.fractional-scale.enabled", true);
@@ -32,9 +38,6 @@ user_pref("widget.use-xdg-desktop-portal.settings", 1);
 // === DECODIFICA VIDEO HARDWARE (VA-API Intel iHD Driver) ===
 user_pref("media.ffmpeg.vaapi.enabled", true);
 user_pref("media.hardware-video-decoding.enabled", true);
-user_pref("media.hardware-video-decoding.force-enabled", true);
-// Zero-copy DMA-BUF: esporta le texture video direttamente da VA-API a WebRender senza copie in RAM
-user_pref("media.ffmpeg.vaapi.force-surface-zero-copy", true);
 user_pref("media.rdd-ffmpeg.enabled", true);
 // Accelerazione H.264 per chiamate WebRTC (Google Meet, Discord, Zoom)
 user_pref("media.webrtc.hw.h264.enabled", true);
