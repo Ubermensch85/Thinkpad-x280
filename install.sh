@@ -38,14 +38,6 @@ install_user_dotfiles() {
         echo "  [+] MPV configurato in ~/.config/mpv"
     fi
 
-    # PipeWire Native Filter-Chain DSP (Ottimizzazione altoparlanti ThinkPad X280)
-    if [ -d "$REPO_DIR/dotfiles/pipewire" ]; then
-        mkdir -p "$HOME/.config/pipewire/pipewire.conf.d"
-        cp -u "$REPO_DIR/dotfiles/pipewire/pipewire.conf.d/"* "$HOME/.config/pipewire/pipewire.conf.d/" 2>/dev/null || true
-        systemctl --user restart pipewire wireplumber 2>/dev/null || true
-        echo "  [+] DSP PipeWire nativo installato in ~/.config/pipewire/pipewire.conf.d"
-    fi
-
     # Firefox Developer Edition (user.js anti-clipping & hwaccel)
     if [ -f "$REPO_DIR/dotfiles/firefox/user.js" ]; then
         for profile in "$HOME/.mozilla/firefox/"*.dev-edition-default; do
