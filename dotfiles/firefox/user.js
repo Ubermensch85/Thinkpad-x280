@@ -127,5 +127,5 @@ user_pref("browser.tabs.crashReporting.sendReport", false);
 user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false);
 
 // === OTTIMIZZAZIONE AUDIO & ANTI-CLIPPING ===
-// Ripristina il moltiplicatore audio a 1.0 per evitare il digital hard-clipping
-user_pref("media.volume_scale", "1.0");
+// Scalatura moderata a 1.25 (+2 dB): garantisce volume adeguato senza la forte saturazione di 1.5
+user_pref("media.volume_scale", "1.25");
