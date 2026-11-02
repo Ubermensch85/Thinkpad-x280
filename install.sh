@@ -46,14 +46,6 @@ install_user_dotfiles() {
         echo "  [+] Preset EasyEffects installati in ~/.local/share/easyeffects"
     fi
 
-    # Servizi systemd utente (es. EasyEffects background service)
-    if [ -d "$REPO_DIR/dotfiles/systemd/user" ]; then
-        mkdir -p "$HOME/.config/systemd/user"
-        cp -u "$REPO_DIR/dotfiles/systemd/user/"* "$HOME/.config/systemd/user/" 2>/dev/null || true
-        systemctl --user daemon-reload 2>/dev/null || true
-        echo "  [+] Servizi systemd utente installati in ~/.config/systemd/user"
-    fi
-
     # Firefox Developer Edition (user.js anti-clipping & hwaccel)
     if [ -f "$REPO_DIR/dotfiles/firefox/user.js" ]; then
         for profile in "$HOME/.mozilla/firefox/"*.dev-edition-default; do

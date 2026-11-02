@@ -73,9 +73,8 @@ I portatili ThinkPad con codec Realtek ALC257 soffrono tipicamente di volume per
   - Disabilita il power-save intermittente (`power_save=0`) che causava ritardi e click/pop all'attivazione del flusso audio.
   - Corregge l'allineamento buffer (`position_fix=1`) per prevenire xrun/desync audio.
 - **EasyEffects DSP System-wide (`dotfiles/easyeffects/`)**:
-  - Profilo su misura **`ThinkPad-X280`** caricato in background in modalità servizio (`easyeffects.service` via systemd utente, totalmente latente, boot overhead < 25ms, icona tray disabilitata in Waybar).
-  - *Upward Compression* (+6 dB sui suoni deboli) ed enfasi presenza vocale (1.5 kHz – 3.5 kHz) per rendere i dialoghi chiarissimi anche tenendo il volume basso (20%–50%).
-  - Filtro *High-Pass* (< 110 Hz) e *True-Peak Limiter* (-1 dB) per eliminare qualsiasi risonanza della scocca o clipping anche spingendo il volume al 100%.
+  - Profilo su misura **`ThinkPad-X280`** (*Upward Compression* +6 dB sui suoni deboli, presenza vocale 1.5–3.5 kHz, High-Pass < 110 Hz e True-Peak Limiter a -1 dB per eliminare risonanze e clipping).
+  - Regola di autoloading per altoparlanti integrati (zero demoni all'avvio del sistema, zero boot overhead).
 - **MPV (`dotfiles/config/mpv/`)**:
   - Filtri `dynaudnorm` + `highpass=f=120` in `mpv.conf` per livellamento dinamico automatico del parlato nei film/video.
   - Tasto rapido `n` in `input.conf` per commutare i filtri al volo quando si collegano cuffie.
