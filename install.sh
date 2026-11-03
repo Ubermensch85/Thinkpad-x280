@@ -85,6 +85,7 @@ case "$choice" in
         echo "  sudo cp -r $REPO_DIR/etc/modprobe.d/* /etc/modprobe.d/"
         echo "  sudo cp -r $REPO_DIR/etc/udev/rules.d/* /etc/udev/rules.d/"
         echo "  sudo cp -r $REPO_DIR/etc/tlp.d/* /etc/tlp.d/"
+        echo "  sudo cp -r $REPO_DIR/etc/NetworkManager/* /etc/NetworkManager/"
         echo "  sudo mkinitcpio -P"
         echo "  sudo udevadm control --reload-rules && sudo udevadm trigger"
         ;;

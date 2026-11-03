@@ -41,5 +41,4 @@ waybar-module-pacman-updates-git
 wd719x-firmware
 xpadneo-dkms-git
 yay
-zotero-bin
 zsh-fzf-plugin-git
