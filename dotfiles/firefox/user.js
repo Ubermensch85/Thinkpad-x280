@@ -54,10 +54,11 @@ user_pref("browser.tabs.unloadTabInContextMenu", true);
 user_pref("browser.low_commit_space_threshold_mb", 512);
 // Inattività minima prima di considerare lo scaricamento: 5 minuti (in millisecondi)
 user_pref("browser.tabs.min_inactive_duration_before_unload", 300000);
-// Limita i processi di contenuto a 4, saturando coerentemente i 4 thread logici dell'i5-7200U
-// senza frammentare inutilmente la memoria tra decine di processi.
-user_pref("dom.ipc.processCount", 4);
-user_pref("dom.ipc.processCount.file", 4);
+// Gestione dinamica dei processi Fission (Site Isolation):
+// Limitare a 4 forzava la coabitazione di molti tab nello stesso processo, causando
+// freeze a cascata tra schede indipendenti quando una di esse eseguiva calcoli pesanti.
+// user_pref("dom.ipc.processCount", 4);
+// user_pref("dom.ipc.processCount.file", 4);
 
 // === CACHE IN RAM (Zero usura SSD / Zero latenza I/O su disco) ===
 user_pref("browser.cache.disk.enable", false);
@@ -86,6 +87,10 @@ user_pref("network.dns.echconfig.fallback_to_origin_when_all_failed", true);
 user_pref("network.dns.use_https_rr_as_altsvc", true);
 
 // === PRIVACY & ENHANCED TRACKING PROTECTION ===
+// Prevenzione stalli D-Bus: evita timeout di 10s verso geoclue/avahi quando i siti chiedono la posizione
+user_pref("geo.provider.use_geoclue", false);
+user_pref("geo.enabled", false);
+user_pref("geo.provider.network.url", "");
 user_pref("privacy.trackingprotection.enabled", true);
 user_pref("privacy.trackingprotection.socialtracking.enabled", true);
 user_pref("privacy.trackingprotection.cryptomining.enabled", true);
@@ -129,3 +134,16 @@ user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false);
 // === OTTIMIZZAZIONE AUDIO & ANTI-CLIPPING ===
 // Scalatura moderata a 1.25 (+2 dB): garantisce volume adeguato senza la forte saturazione di 1.5
 user_pref("media.volume_scale", "1.25");
+
+// === COLORI & PREVENZIONE PROBLEMI DI CONTRASTO / LEGGIBILITA SUI SITI WEB ===
+// Rispetta sempre i colori definiti dai siti web (1 = Mai sovrascrivere)
+user_pref("browser.display.document_color_use", 1);
+// Non ereditare i colori del tema GTK del sistema nel contenuto delle pagine
+user_pref("browser.display.use_system_colors", false);
+// Sfondo e testo canvas standard (evita testo scuro su sfondo scuro ereditato)
+user_pref("browser.display.background_color", "#ffffff");
+user_pref("browser.display.foreground_color", "#000000");
+user_pref("browser.anchor_color", "#0000ee");
+user_pref("browser.visited_color", "#551a8b");
+// Non forzare la Dark Mode CSS sui siti privi di supporto nativo (2 = segui il sistema)
+user_pref("layout.css.prefers-color-scheme.content-override", 2);
