@@ -38,6 +38,13 @@ install_user_dotfiles() {
         echo "  [+] MPV configurato in ~/.config/mpv"
     fi
 
+    # Rofi
+    if [ -d "$REPO_DIR/dotfiles/config/rofi" ]; then
+        mkdir -p "$HOME/.config/rofi"
+        cp -rn "$REPO_DIR/dotfiles/config/rofi/"* "$HOME/.config/rofi/"
+        echo "  [+] Rofi configurato in ~/.config/rofi"
+    fi
+
     # Firefox Developer Edition (user.js anti-clipping & hwaccel)
     if [ -f "$REPO_DIR/dotfiles/firefox/user.js" ]; then
         for profile in "$HOME/.mozilla/firefox/"*.dev-edition-default; do

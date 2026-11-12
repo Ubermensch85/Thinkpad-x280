@@ -1,0 +1,67 @@
+/*
+** Waybar Blue Rofi Theme - Aligned with Waybar Style
+*/
+
+* {
+    background-color:     transparent;
+    text-color:           #ffffff;
+    font:                 "JetBrains Mono Bold 10";
+}
+
+window {
+    anchor:     south;
+    location:   south west;
+    width:      40%;
+    height:     34;
+    padding:    0;
+    children:   [ horibox ];
+    y-offset:   8px;
+    x-offset:   8px;
+    background-color: #2E3440F0;
+    border: 0;
+}
+
+horibox {
+    orientation: horizontal;
+    children:   [ prompt, entry, listview ];
+    background-color: transparent;
+}
+
+entry {
+    expand:     false;
+    width:      8em;
+    padding:    8 0 0 8;
+    text-color: #ffffff;
+    background-color: transparent;
+}
+
+listview {
+    layout:     horizontal;
+    spacing:    15px;
+    lines:      50;
+    padding:    8 0 0;
+    background-color: transparent;
+}
+
+element {
+    padding: 0 8px;
+    background-color: transparent;
+}
+
+element selected {
+    text-color:       #ffffff;
+    background-color: #3281EA;
+}
+
+element-text, element-icon {
+    background-color: inherit;
+    text-color:       inherit;
+    highlight:        bold;
+}
+
+prompt {
+    background-color: #3281EA;
+    text-color:       #ffffff;
+    padding:          4 12 0 12;
+    font:             "JetBrains Mono Bold 16";
+}

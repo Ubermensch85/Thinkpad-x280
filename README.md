@@ -38,7 +38,7 @@ Thinkpad-x280/
 │   ├── hypr/                           # Hyprland compositor (Lua config, binds, shader)
 │   ├── waybar/                         # Waybar status bar (config, stili, script)
 │   ├── zsh/                            # Shell ZSH (.zshrc, alias, prompt)
-│   └── config/                         # Configurazioni app utente (kitty, mpv)
+│   └── config/                         # Configurazioni app utente (kitty, mpv, rofi)
 ├── scripts/
 │   ├── battery/                        # Script monitoraggio e alert stato batteria
 │   ├── system/                         # Script manutenzione (update.sh, fix vari)
