@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Firefox Developer Edition - Nord + Blu Elettrico (#00A8FF / #00BFFF)
+   ========================================================================== */
+
+:root {
+  --nord-bg: #2E3440;
+  --nord-bg-dark: #242933;
+  --nord-fg: #ECEFF4;
+  --electric-blue: #00A8FF;
+  --electric-cyan: #00BFFF;
+
+  --toolbar-bgcolor: #2E3440 !important;
+  --toolbar-color: #ECEFF4 !important;
+  --lwt-accent-color: #242933 !important;
+  --lwt-text-color: #ECEFF4 !important;
+  --toolbar-field-background-color: #242933 !important;
+  --toolbar-field-color: #ECEFF4 !important;
+  --toolbar-field-focus-background-color: #242933 !important;
+  --toolbar-field-focus-border-color: #00A8FF !important;
+  --focus-outline-color: #00A8FF !important;
+  --tab-selected-bgcolor: #3B4252 !important;
+  --tab-selected-textcolor: #ECEFF4 !important;
+}
+
+/* Barra schede e toolbar */
+#navigator-toolbox {
+  background-color: #242933 !important;
+  border-bottom: 1px solid rgba(0, 168, 255, 0.25) !important;
+}
+
+/* Scheda attiva con accento blu elettrico */
+.tabbrowser-tab[selected="true"] .tab-background {
+  background-color: #3B4252 !important;
+  border-top: 2px solid #00A8FF !important;
+  box-shadow: 0 0 8px rgba(0, 168, 255, 0.25) !important;
+}
+
+/* Barra URL a fuoco */
+#urlbar[focused="true"] > #urlbar-background,
+#searchbar:focus-within {
+  border-color: #00A8FF !important;
+  box-shadow: 0 0 0 1px #00A8FF !important;
+}
+
+/* Selezione nella URL bar e risultati */
+#urlbar-results .urlbarView-row[selected] {
+  background-color: rgba(0, 168, 255, 0.25) !important;
+}
+
+.urlbarView-url {
+  color: #00BFFF !important;
+}

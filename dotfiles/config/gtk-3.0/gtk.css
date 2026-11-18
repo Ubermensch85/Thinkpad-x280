@@ -4,3 +4,44 @@
 @define-color accent_color #00BFFF;
 @define-color theme_selected_bg_color #00A8FF;
 @define-color theme_unfocused_selected_bg_color #0088CC;
+
+/* Override selezioni e controlli GTK3 (incluso Nemo) */
+selection,
+*:selected,
+.view:selected,
+.view:selected:focus,
+iconview:selected,
+textview text selection,
+entry selection,
+row:selected,
+treeview.view:selected,
+.nemo-window .sidebar row:selected,
+.nemo-window .nemo-places-sidebar row:selected {
+    background-color: #00A8FF;
+    color: #ffffff;
+}
+
+checkbutton check:checked,
+checkbutton check:indeterminate,
+radiobutton radio:checked,
+switch:checked,
+progressbar progress,
+scale highlight {
+    background-color: #00A8FF;
+    border-color: #00A8FF;
+}
+
+button.suggested-action {
+    background-color: #00A8FF;
+    color: #ffffff;
+}
+
+button.suggested-action:hover {
+    background-color: #00BFFF;
+}
+
+entry:focus,
+spinbutton:focus {
+    border-color: #00A8FF;
+    box-shadow: inset 0 0 0 1px #00A8FF;
+}
