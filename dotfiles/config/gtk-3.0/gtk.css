@@ -1,0 +1,6 @@
+/* Accent Blu Elettrico / Azzurro Acceso coerente con Waybar e Hyprland */
+@define-color blue_3 #00A8FF;
+@define-color accent_bg_color #00A8FF;
+@define-color accent_color #00BFFF;
+@define-color theme_selected_bg_color #00A8FF;
+@define-color theme_unfocused_selected_bg_color #0088CC;
