@@ -20,8 +20,8 @@ hl.config({
         gaps_out                = 6,
         border_size             = 1,
         col = {
-            -- Gradiente aurora boreale continuo (ruotato con animazione borderangle)
-            active_border   = { colors = { "rgb(88c0d0)", "rgb(81a1c1)", "rgb(5e81ac)", "rgb(81a1c1)", "rgb(88c0d0)" }, angle = 45 },
+            -- Gradiente blu elettrico / azzurro acceso
+            active_border   = { colors = { "rgb(00bfff)", "rgb(0088ff)", "rgb(0055ff)", "rgb(0088ff)", "rgb(00bfff)" }, angle = 45 },
             inactive_border = "rgb(4c566a)",
         },
         extend_border_grab_area = 15,

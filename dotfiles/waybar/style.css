@@ -63,11 +63,11 @@ window#waybar {
     margin: 0;
 }
 
-/* Accent color #88C0D0 / #3281EA per brand e clock */
+/* Accent color blu elettrico / azzurro acceso per brand e clock */
 #custom-arch,
 #clock,
 #custom-updates {
-    color: #88C0D0;
+    color: #00A8FF;
     font-weight: 700;
 }
 
@@ -92,8 +92,8 @@ window#waybar {
 }
 
 #workspaces button.active {
-    color: #88C0D0;
-    background-color: rgba(136, 192, 208, 0.15);
+    color: #00A8FF;
+    background-color: rgba(0, 168, 255, 0.18);
     font-weight: 700;
 }
 
