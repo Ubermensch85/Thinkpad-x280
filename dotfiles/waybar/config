@@ -1,6 +1,6 @@
 {
     // =========================================================================
-    // Waybar Configuration - ThinkPad X280 / Hyprland 0.56.2
+    // Waybar Configuration - ThinkPad X280 / Hyprland 0.57.2
     // Stile Nord coerente, layout pulito e gestione immediata dei segnali
     // =========================================================================
 
@@ -45,16 +45,16 @@
         "on-scroll-up": "hyprctl dispatch workspace e-1",
         "on-scroll-down": "hyprctl dispatch workspace e+1",
         "format-icons": {
-            "1": "<span font='DejaVu Serif 11'>Ⅰ</span>",
-            "2": "<span font='DejaVu Serif 11'>Ⅱ</span>",
-            "3": "<span font='DejaVu Serif 11'>Ⅲ</span>",
-            "4": "<span font='DejaVu Serif 11'>Ⅳ</span>",
-            "5": "<span font='DejaVu Serif 11'>Ⅴ</span>",
-            "6": "<span font='DejaVu Serif 11'>Ⅵ</span>",
-            "7": "<span font='DejaVu Serif 11'>Ⅶ</span>",
-            "8": "<span font='DejaVu Serif 11'>Ⅷ</span>",
-            "9": "<span font='DejaVu Serif 11'>Ⅸ</span>",
-            "10": "<span font='DejaVu Serif 11'>Ⅹ</span>"
+            "1": "<span font='Inter 11'>Ⅰ</span>",
+            "2": "<span font='Inter 11'>Ⅱ</span>",
+            "3": "<span font='Inter 11'>Ⅲ</span>",
+            "4": "<span font='Inter 11'>Ⅳ</span>",
+            "5": "<span font='Inter 11'>Ⅴ</span>",
+            "6": "<span font='Inter 11'>Ⅵ</span>",
+            "7": "<span font='Inter 11'>Ⅶ</span>",
+            "8": "<span font='Inter 11'>Ⅷ</span>",
+            "9": "<span font='Inter 11'>Ⅸ</span>",
+            "10": "<span font='Inter 11'>Ⅹ</span>"
         }
     },
 
@@ -187,7 +187,7 @@
     "clock": {
         "format": "  {:%H:%M}",
         "format-alt": "{:%d-%m-%Y}",
-        "interval": 1,
+        "interval": 30,
         "tooltip-format": "<tt>{calendar}</tt>",
         "calendar": {
             "mode": "month",

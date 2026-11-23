@@ -1,6 +1,6 @@
 /* =========================================================================
    Waybar Style - Nord-Arch Modern
-   Ottimizzato per ThinkPad X280 / Hyprland 0.56.2
+   Ottimizzato per ThinkPad X280 / Hyprland 0.57.2
    Palette Nord:
      nord0  #2E3440 (polar night background)
      nord3  #4C566A (inattivo/borders)
@@ -77,7 +77,7 @@ window#waybar {
 }
 
 #workspaces button {
-    font-family: "DejaVu Serif";
+    font-family: "Inter", sans-serif;
     padding: 2px 6px;
     color: rgba(236, 239, 244, 0.55);
     border-radius: 8px;

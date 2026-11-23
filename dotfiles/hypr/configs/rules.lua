@@ -1,5 +1,5 @@
 -- ~/.config/hypr/configs/rules.lua
--- Hyprland 0.56.2 - Regole Finestre (Window Rules)
+-- Hyprland 0.57.2 - Regole Finestre e Layer (Window & Layer Rules)
 --
 -- Effetti statici (valutati all'apertura della finestra):
 --   float, tile, fullscreen, maximize, move, size, center, pseudo,
@@ -171,6 +171,12 @@ hl.window_rule({
     opacity = "1.0 override 1.0 override",
 })
 
+-- ── Apostrophe (Editor Markdown) ──────────────────────────────────────────────
+hl.window_rule({
+    match   = { class = "^(org\\.gnome\\.gitlab\\.somas\\.Apostrophe)$" },
+    opacity = "1.0 override 1.0 override",
+})
+
 -- ── AnyDesk (Finestra principale) ────────────────────────────────────────────
 hl.window_rule({
     match       = { class = "^(Anydesk)$", title = "^(AnyDesk)$" },
@@ -244,4 +250,29 @@ hl.window_rule({
         pin        = false,
     },
     no_focus = true,
+})
+
+-- ════════════════════════════════════════════════════════════════════════════
+-- LAYER RULES (Frosted Glass / Blur su Waybar, Wofi e Mako)
+-- ════════════════════════════════════════════════════════════════════════════
+
+hl.layer_rule({
+    name         = "waybar-blur",
+    match        = { namespace = "^waybar$" },
+    blur         = true,
+    ignore_alpha = 0.5,
+})
+
+hl.layer_rule({
+    name         = "wofi-blur",
+    match        = { namespace = "^wofi$" },
+    blur         = true,
+    ignore_alpha = 0.5,
+})
+
+hl.layer_rule({
+    name         = "mako-blur",
+    match        = { namespace = "^notifications$" },
+    blur         = true,
+    ignore_alpha = 0.5,
 })

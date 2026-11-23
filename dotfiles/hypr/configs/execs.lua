@@ -1,5 +1,5 @@
 -- ~/.config/hypr/configs/execs.lua
--- Hyprland 0.56.2 - Variabili d'ambiente e Script di Autostart
+-- Hyprland 0.57.2 - Variabili d'ambiente e Script di Autostart
 
 -- ── Variabili d'ambiente (Wayland / Toolkit) ──────────────────────────────────
 hl.env("GDK_BACKEND",          "wayland,x11,*")
@@ -31,6 +31,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("pkill waybar; waybar")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface text-scaling-factor 1.25")
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
+    hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Original-Classic'")
+    hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 24")
 
     -- OSD Overlay (Wob) per volume e luminosità
     hl.exec_cmd("rm -f $XDG_RUNTIME_DIR/wob.sock && mkfifo $XDG_RUNTIME_DIR/wob.sock && tail -f $XDG_RUNTIME_DIR/wob.sock | wob")

@@ -1,5 +1,5 @@
 -- ~/.config/hypr/configs/input.lua
--- Hyprland 0.56.2 - Configurazione Input
+-- Hyprland 0.57.2 - Configurazione Input
 -- Ottimizzato per ThinkPad X280 (Tastiera italiana, Touchpad Synaptics TM3381, TrackPoint ELAN)
 
 hl.config({
@@ -10,9 +10,10 @@ hl.config({
         accel_profile   = "flat",
 
         touchpad = {
-            natural_scroll = false,
-            tap_to_click   = true,
-            scroll_factor  = 1.4,
+            natural_scroll       = false,
+            tap_to_click         = true,
+            disable_while_typing = true,
+            scroll_factor        = 1.4,
         },
     },
 })

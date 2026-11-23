@@ -1,0 +1,89 @@
+/* ============================================================
+   WOFI CENTER - WAYBAR PILL STYLE (Nord-Arch, GTK3 Clean)
+   ============================================================ */
+
+window {
+    margin: 0px;
+    background-color: transparent;
+    font-family: "Inter", "Hack Nerd Font", sans-serif;
+}
+
+#outer-box {
+    margin: 4px;
+    padding: 16px;
+    background-color: rgba(46, 52, 64, 0.94);
+    border: 1px solid rgba(136, 192, 208, 0.28);
+    border-radius: 22px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+#input {
+    margin: 0px 0px 12px 0px;
+    padding: 8px 14px;
+    border: 1px solid rgba(136, 192, 208, 0.22);
+    border-radius: 16px;
+    background-color: rgba(36, 41, 51, 0.70);
+    color: #ECEFF4;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#input:focus {
+    border-color: rgba(0, 168, 255, 0.65);
+}
+
+#prompt {
+    font-size: 18px;
+    color: #00A8FF;
+    font-weight: 700;
+    padding: 0px 10px 0px 2px;
+}
+
+#inner-box {
+    margin: 0px;
+    background-color: transparent;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+#entry {
+    padding: 8px 14px;
+    margin: 2px 0px;
+    border-radius: 12px;
+    color: #ECEFF4;
+    background-color: transparent;
+}
+
+#entry:selected {
+    background-color: rgba(0, 168, 255, 0.22);
+    color: #00A8FF;
+}
+
+#entry image {
+    margin-right: 12px;
+}
+
+#text {
+    color: #ECEFF4;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+#entry:selected #text {
+    color: #ECEFF4;
+    font-weight: 700;
+}
+
+scrollbar {
+    min-width: 3px;
+    background-color: transparent;
+}
+
+scrollbar slider {
+    min-width: 3px;
+    background-color: rgba(136, 192, 208, 0.40);
+    border-radius: 4px;
+}

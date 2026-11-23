@@ -1,5 +1,5 @@
 -- ~/.config/hypr/configs/appearance.lua
--- Hyprland 0.56.2 - Stile, Decorazioni, Curve ed Animazioni
+-- Hyprland 0.57.2 - Stile, Decorazioni, Curve ed Animazioni
 -- Tema: Nord (nordtheme.com)
 -- Palette:
 --   nord0  #2e3440 — Polar Night (background)
@@ -25,13 +25,14 @@ hl.config({
             inactive_border = "rgb(4c566a)",
         },
         extend_border_grab_area = 15,
+        resize_on_border        = true,
         layout                  = "dwindle",
     },
     decoration = {
         rounding         = 10,
         rounding_power   = 2.0,
-        active_opacity   = 0.90,
-        inactive_opacity = 0.85,
+        active_opacity   = 1.0,
+        inactive_opacity = 1.0,
         blur = {
             enabled    = true,
             size       = 4,
@@ -62,21 +63,27 @@ hl.config({
     },
 })
 
--- ── Curve Bezier ─────────────────────────────────────────────────────────────
-hl.curve("overshot",  { type = "bezier", points = { {0.13, 0.99}, {0.29, 1.1}   } })
-hl.curve("smoothOut", { type = "bezier", points = { {0.36, 0},    {0.66, -0.56} } })
-hl.curve("spring",    { type = "bezier", points = { {0.68, -0.55},{0.27, 1.55}  } })
-hl.curve("linear",    { type = "bezier", points = { {0, 0},       {1, 1}        } })
-hl.curve("easeInOut", { type = "bezier", points = { {0.42, 0},    {0.58, 1}     } })
-hl.curve("bounce",    { type = "bezier", points = { {0.17, 0.67}, {0.54, 1.5}   } })
+-- ── Curve Bezier & Spring (Hyprland 0.57.2) ─────────────────────────────────
+hl.curve("easeOutQuint", { type = "bezier", points = { {0.23, 1},   {0.32, 1} } })
+hl.curve("almostLinear", { type = "bezier", points = { {0.5, 0.5},  {0.75, 1} } })
+hl.curve("quick",        { type = "bezier", points = { {0.15, 0},   {0.1, 1}  } })
+hl.curve("linear",       { type = "bezier", points = { {0, 0},      {1, 1}    } })
+hl.curve("easy",         { type = "spring", mass = 1, stiffness = 238.12, damping = 24.21 })
 
 -- ── Animazioni ───────────────────────────────────────────────────────────────
-hl.animation({ leaf = "windows",          enabled = true, speed = 5, bezier = "spring",    style = "slide"     })
-hl.animation({ leaf = "windowsOut",       enabled = true, speed = 4, bezier = "smoothOut", style = "slide"     })
-hl.animation({ leaf = "windowsMove",      enabled = true, speed = 5, bezier = "overshot"                       })
-hl.animation({ leaf = "border",           enabled = true, speed = 6, bezier = "easeInOut"                      })
+hl.animation({ leaf = "global",           enabled = true, speed = 8,    bezier = "easeOutQuint" })
+hl.animation({ leaf = "windows",          enabled = true, speed = 4.8,  spring = "easy" })
+hl.animation({ leaf = "windowsIn",        enabled = true, speed = 4.1,  spring = "easy",         style = "popin 87%" })
+hl.animation({ leaf = "windowsOut",       enabled = true, speed = 1.8,  bezier = "easeOutQuint", style = "popin 87%" })
+hl.animation({ leaf = "windowsMove",      enabled = true, speed = 4.5,  spring = "easy" })
+hl.animation({ leaf = "border",           enabled = true, speed = 5.0,  bezier = "easeOutQuint" })
 -- Rotazione gradiente disattivata per preservare la batteria ed evitare C-state wakeups continui su Intel HD 620
 hl.animation({ leaf = "borderangle",      enabled = false })
-hl.animation({ leaf = "fade",             enabled = true, speed = 4, bezier = "easeInOut"                      })
-hl.animation({ leaf = "workspaces",       enabled = true, speed = 5, bezier = "bounce",    style = "slide"     })
-hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 5, bezier = "spring",    style = "slidevert" })
+hl.animation({ leaf = "fade",             enabled = true, speed = 3.0,  bezier = "quick" })
+hl.animation({ leaf = "fadeIn",           enabled = true, speed = 1.8,  bezier = "almostLinear" })
+hl.animation({ leaf = "fadeOut",          enabled = true, speed = 1.5,  bezier = "almostLinear" })
+hl.animation({ leaf = "layers",           enabled = true, speed = 3.8,  bezier = "easeOutQuint" })
+hl.animation({ leaf = "layersIn",         enabled = true, speed = 4.0,  bezier = "easeOutQuint", style = "fade" })
+hl.animation({ leaf = "layersOut",        enabled = true, speed = 1.6,  bezier = "linear",       style = "fade" })
+hl.animation({ leaf = "workspaces",       enabled = true, speed = 4.2,  bezier = "easeOutQuint", style = "slide" })
+hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4.5,  spring = "easy",         style = "slidevert" })

@@ -1,5 +1,5 @@
 -- ~/.config/hypr/configs/binds.lua
--- Hyprland 0.56.2 - Keybindings e Dispatchers
+-- Hyprland 0.57.2 - Keybindings e Dispatchers
 
 local mainMod = "SUPER"
 
@@ -8,11 +8,12 @@ hl.bind(mainMod .. " + Return",    hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd("sh /home/ubermensch/.local/bin/firefox-hwaccel"))
 hl.bind(mainMod .. " + C",         hl.dsp.exec_cmd("sh /home/ubermensch/.local/bin/librewolf-hwaccel"))
 hl.bind(mainMod .. " + G",         hl.dsp.exec_cmd("/home/ubermensch/.local/bin/geforcenow"))
-hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("rofi -show drun"))
-hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd("rofi -show run"))
+hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("pkill -x wofi || wofi --show drun"))
+hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd("pkill -x wofi || wofi --show run"))
 hl.bind(mainMod .. " + N",         hl.dsp.exec_cmd("nemo"))
 hl.bind(mainMod .. " + M",         hl.dsp.exec_cmd("sh /home/ubermensch/.config/alacritty/script/nota.sh"))
 hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd("ghostwriter"))
+hl.bind(mainMod .. " + S",         hl.dsp.exec_cmd("apostrophe"))
 
 -- ── Sistema & Gestione Sessione ──────────────────────────────────────────────
 hl.bind(mainMod .. " + Q",         hl.dsp.window.close())
@@ -42,15 +43,15 @@ hl.bind(mainMod .. " + P",  hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + F",  hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + W",  hl.dsp.exec_cmd("/home/ubermensch/.local/bin/display-control toggle"))
 hl.bind(mainMod .. " + A",  hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
-hl.bind(mainMod .. " + S",  hl.dsp.exec_cmd("hyprdvd --screensaver"))
 
--- ── Spostamento Finestre (Tasti Direzionali e Vim HJKL) ───────────────────────
+-- ── Spostamento Finestre e Focus (Tasti Direzionali e Vim HJKL) ───────────────
 local move_map = {
     left  = "l", right = "r", up = "u", down = "d",
     H     = "l", L     = "r", K  = "u", J    = "d",
 }
 for key, dir in pairs(move_map) do
-    hl.bind(mainMod .. " + " .. key, hl.dsp.window.move({ direction = dir }))
+    hl.bind(mainMod .. " + " .. key,          hl.dsp.window.move({ direction = dir }))
+    hl.bind(mainMod .. " + ALT + " .. key,  hl.dsp.focus({ direction = dir }))
 end
 
 -- ── Navigazione Workspace (1–10) ─────────────────────────────────────────────

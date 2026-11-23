@@ -1,5 +1,5 @@
 -- ~/.config/hypr/hyprland.lua
--- Hyprland 0.56.2 (Lua Configuration)
+-- Hyprland 0.57.2 (Lua Configuration)
 -- Architettura modulare ottimizzata per ThinkPad X280 (Intel Kaby Lake HD Graphics 620)
 
 -- ── Moduli di Configurazione ──────────────────────────────────────────────────
